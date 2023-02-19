@@ -81,6 +81,8 @@ memory *firstFit(memory *head_pointer, int data)
         }
         node = node->next;
     }
+    cout << "Memory not allocated, not enough free memory. ";
+    cout << endl;
 
     return head_pointer;
 }
@@ -111,6 +113,8 @@ memory *nextFit(memory *head_pointer, int data)
         }
         node = node->next;
     }
+    cout << "Memory not allocated, not enough free memory" << endl;
+    cout << endl;
 
     return head_pointer;
 }
@@ -149,7 +153,11 @@ memory *best_fit(memory *head_pointer, int data)
         cout << "Memory Allocated!" << endl;
         cout << endl;
     }
-
+    else
+    {
+        cout << "Memory not allocated, not enough free memory" << endl;
+        cout << endl;
+    }
     return best;
 }
 
@@ -187,13 +195,17 @@ memory *worst_fit(memory *head_pointer, int data)
         cout << "Memory Allocated!" << endl;
         cout << endl;
     }
-
+    else
+    {
+        cout << "Memory not allocated, not enough free memory" << endl;
+        cout << endl;
+    }
     return worst;
 }
 void mergeMemory(memory *&head)
 {
-    cout<<"Merging fragmented memory"<<endl;
-    cout<<endl;
+    cout << "Merging fragmented memory" << endl;
+    cout << endl;
     memory *current = head;
     int freeMemory = 0;
 
@@ -227,49 +239,59 @@ void mergeMemory(memory *&head)
         }
     }
 
-    
-    if (freeMemory > 0) {
+    if (freeMemory > 0)
+    {
         int remainder = freeMemory % 8;
         int size = freeMemory - remainder;
 
-        int i=1;
-        while (size > 0 ) {
+        int i = 1;
+        while (size > 0)
+        {
             memory *newNode = new memory();
-            newNode->data = 8*i;
+            newNode->data = 8 * i;
             newNode->isAllocated = false;
-            if(newNode->data>size){
-                remainder+=size;
+            if (newNode->data > size)
+            {
+                remainder += size;
                 break;
             }
-            current=head;
-            if (head == nullptr) {
+            current = head;
+            if (head == nullptr)
+            {
                 head = newNode;
                 newNode->prev = nullptr;
-            } else {
+            }
+            else
+            {
                 current = head;
-                while (current->next != nullptr) {
+                while (current->next != nullptr)
+                {
                     current = current->next;
                 }
                 current->next = newNode;
                 newNode->prev = current;
             }
 
-            size -= 8*i;
+            size -= 8 * i;
             i++;
         }
 
-        
-        if (remainder > 0) {
+        if (remainder > 0)
+        {
             memory *newNode = new memory();
             newNode->data = remainder;
             newNode->isAllocated = false;
 
-            if (head == nullptr) {
+            if (head == nullptr)
+            {
                 head = newNode;
                 newNode->prev = nullptr;
-            } else {
+            }
+            else
+            {
                 current = head;
-                while (current->next != nullptr) {
+                while (current->next != nullptr)
+                {
                     current = current->next;
                 }
                 current->next = newNode;
@@ -304,15 +326,15 @@ int main()
     printResult(node);
     temp = firstFit(node, 7);
     printResult(node);
-    temp = best_fit(node, 30);
+    temp = best_fit(node, 3000);
     printResult(node);
     temp = worst_fit(node, 1);
     printResult(node);
     mergeMemory(node);
     printResult(node);
-    temp=best_fit(node,30);
+    temp = best_fit(node, 30);
     printResult(node);
-    temp=firstFit(node,10);
+    temp = firstFit(node, 10);
     printResult(node);
     mergeMemory(node);
     printResult(node);
